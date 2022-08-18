@@ -34,7 +34,7 @@
             <span class="sound">snare</span>
         </div>
     </div>
-    //keycode.info
+    <!-- //keycode.info -->
 
     <audio data-key="65" src="asset/sound/crash.mp3"></audio>
     <audio data-key="83" src="asset/sound/cymbals.mp3"></audio>
@@ -42,5 +42,35 @@
     <audio data-key="70" src="asset/sound/kick-nd-snare.mp3"></audio>
     <audio data-key="71" src="asset/sound/synthsnare.mp3"></audio>
     <audio data-key="72" src="asset/sound/tom.mp3"></audio>
+
+    <script>
+        window.addEventListener('keydown', function(e){
+            // console.log(e);
+            // console.log(e.keyCode);
+            // added an event listener to the audio element, with the attribute "data-key" of the corresponding keycode using backtics
+            const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+            const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+            console.log(key);
+            // console.log(audio);
+            if (!audio) return; // stop the function from running
+            audio.currentTime = 0; // rewind to the start
+            audio.play();
+            // adds a css classname to the key element
+            key.classList.add('playing');
+            // setTimeout(function() {
+
+            // }, 0.5)
+            const keys = document.querySelectorAll('.key');
+            // cannot listen to an array of elements or objects ie addEventListener function
+            function removeTransition(e) {
+                // console.log(e);
+                if (e.propertyName !== 'transform') return; //skip if its not a transform
+                // console.log(e.propertyName);
+                // console.log(this); this is always equals to whatever we called it
+                this.classList.remove('playing')
+            }
+            keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+        })
+    </script>
 </body>
 </html>
